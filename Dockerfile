@@ -6,9 +6,17 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     curl \
+    zip \
     libzip-dev \
     libpng-dev \
-    zip
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libwebp-dev
+
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp
 
 RUN docker-php-ext-install mysqli pdo_mysql gd
 

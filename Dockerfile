@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     zip
 
 # Extensões PHP necessárias
-RUN docker-php-ext-install mysqli pdo pdo_mysql zip
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Habilita mod_rewrite
 RUN a2enmod rewrite

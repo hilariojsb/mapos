@@ -8,9 +8,16 @@ RUN apt-get update && apt-get install -y \
     curl \
     zip \
     libzip-dev \
-    libpng-dev
+    libpng-dev \
+    libxml2-dev
 
-RUN docker-php-ext-install mysqli pdo_mysql zip gd
+RUN docker-php-ext-install \
+    mysqli \
+    pdo_mysql \
+    zip \
+    gd \
+    curl \
+    xml
 
 RUN a2enmod rewrite
 
@@ -18,7 +25,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY . /var/www/html
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install -vvv
 
 RUN chown -R www-data:www-data /var/www/html
 

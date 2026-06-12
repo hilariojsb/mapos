@@ -1,31 +1,29 @@
 FROM php:8.4-apache
 
-WORKDIR /var/www/html
-
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
     curl \
-    zip \
     libzip-dev \
     libpng-dev \
-    libxml2-dev
+    libicu-dev
 
 RUN docker-php-ext-install \
     mysqli \
     pdo_mysql \
     zip \
     gd \
-    curl \
-    xml
+    intl
 
 RUN a2enmod rewrite
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY . /var/www/html
+WORKDIR /var/www/html
 
-RUN composer install -vvv
+COPY . .
+
+RUN composer install --ignore-platform-reqs --no-scripts
 
 RUN chown -R www-data:www-data /var/www/html
 
